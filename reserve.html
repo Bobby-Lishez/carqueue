@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tables Page</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="text-center"><span class="glyphicon glyphicon-oil"></span>  The Oil Change  <span class="glyphicon glyphicon-oil"></span></h1>
+      <hr>
+      <h2 class="text-center">Select a time below to service your vehicle</h2>
+      <br>
+      <div class="text-center">
+        <a href="/tables"><button type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span> View Service Queue</button></a>
+        <!-- <a href="/reserve"><button type="button" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-credit-card"></span> Select Service Time</button></a> -->
+      </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            <select name="time" id="timeInput" >
+     
+                <option value="8:00 AM">8:00 AM</option>
+                <option value="8:30 AM">8:30 AM</option>
+                 
+                <option value="9:00 AM">9:00 AM</option>
+                <option value="9:30 AM">9:30 AM</option>
+                 
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                 
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                 
+                <option value="12:00 PM">12:00 PM</option>
+                <option value="12:30 PM">12:30 PM</option>
+                 
+                <option value="1:00 PM">1:00 PM</option>
+                <option value="1:30 PM">1:30 PM</option>
+                 
+                <option value="2:00 PM">2:00 PM</option>
+                <option value="2:30 PM">2:30 PM</option>
+                 
+                <option value="3:00 PM">3:00 PM</option>
+                <option value="3:30 PM">3:30 PM</option>
+                 
+                <option value="4:00 PM">4:00 PM</option>
+                <option value="4:30 PM">4:30 PM</option>
+                 
+                <option value="5:00 PM">5:00 PM</option>
+                <option value="5:30 PM">5:30 PM</option>
+                 
+                </select>
+            </br>
+        </br>
+                <form role="form">
+                        <div class="form-group">
+                          <label for="nameInput">Name</label>
+                          <input type="text" class="form-control" id="nameInput">
+                        </div>
+                        <div class="form-group">
+                          <label for="phoneInput">Phone Number</label>
+                          <input type="number" class="form-control" id="phoneInput">
+                        </div>
+                        <div class="form-group">
+                          <label for="serviceInput">Service Type</label>
+                          <input type="text" class="form-control" id="serviceInput">
+                        </div>
+                        <div class="form-group">
+                          <label for="vehicleInput">Vehicle Make/Model</label>
+                          <input type="text" class="form-control" id="vehicleInput">
+                        </div>
+                        <button class="btn btn-primary" id = "makeAppt">Submit</button>
+                      </form>
+            </div>
+        </div>
+    </div>
+</br>
+</br>
+<footer class="footer">
+    <div class="container text-center">
+      <p>The Oil Change Spanish Fork</p>
+      <p>Address: 552 N Main St, Spanish Fork, UT 84660</p>
+      <p>Phone: (801) 798-7877</p>
+      <p>Hours: M-F 8:00am-6:00pm | Sat 8:00am-4:00pm | Closed Sundays</p>
+      <p></p>
+    </div>
+  </footer>
+  </div>
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script type = "text/javascript" src = "./availabletimes.js"></script>
+  <!-- <script type = "text/javascript" src = "./form.js"></script> -->
+  <script type = "text/javascript">
+function makeAppt() {
+    var newAppointment = {
+        name: $("#nameInput").val().trim(),
+        time: $("#timeInput").val(),
+        phone: $("#phoneInput").val(),
+        service: $("#serviceInput").val().trim(),
+        vehicle: $("#vehicleInput").val().trim()
+    };
+    // appointments.push(newAppointment);
+    console.log(newAppointment);
+    $("#nameInput").val("");
+    $("#serviceInput").val("");
+    $("#phoneInput").val("");
+    $("#vehicleInput").val("");
+
+    // This line is the magic. It"s very similar to the standard ajax function we used.
+      // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+      // depending on if a tables is available or not.
+
+      $.post("/api/tables", newAppointment,
+        function(data) {
+
+          // If a table is available... tell user they are booked.
+          if (data) {
+            alert("Your appointment is booked");
+          }
+
+          // If a table is available... tell user they on the waiting list.
+          else {
+            alert("Looks like we're booked up for today. You're on the waiting list");
+          }
+
+})
+}
+
+$("#makeAppt").on("click", function(event){
+    event.preventDefault();
+    makeAppt();
+})
+  </script>
+</body>
+</html>
