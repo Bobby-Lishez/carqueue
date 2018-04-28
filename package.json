@@ -2,9 +2,9 @@
   "name": "carqueue",
   "version": "1.0.0",
   "description": "\"add appointments for service\"",
-  "main": "index.js",
+  "main": "htmlroutes.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node htmlroutes.js"
   },
   "author": "Team elephant",
   "license": "ISC",
